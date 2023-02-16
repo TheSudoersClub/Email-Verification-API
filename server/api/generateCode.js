@@ -1,25 +1,30 @@
 const express = require('express');
 const router = express.Router();
 
+// generateCode function
+const generateCode = require('../lib/verification/generateCode');
+
 // generate verification code route
 router.get('/', (req, res) => {
     // email of user
     const email = req.query.email
-
+    console.log(email)
     // status 
-    const result = true;
-    // const result = generateCode(email);
+    const result = generateCode(email);
 
-    // response
-    if (result) {
-        res.send({
-            success: true
-        });
-    } else {
-        res.send({
-            success: false
-        });
-    }
+    // handle promise
+    result.then((status) => {
+        // response
+        if (status) {
+            res.send({
+                success: true
+            });
+        } else {
+            res.send({
+                success: false
+            });
+        }
+    })
 });
 
 // export the router

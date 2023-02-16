@@ -2,9 +2,6 @@
 const express = require("express");
 const app = express();
 
-// fs module for handling files
-const fs = require("fs");
-
 // generateCode route
 const generateCode = require('./api/generateCode');
 
