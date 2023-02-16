@@ -1,1 +1,35 @@
-/* todo */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: 90vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.verification {
+    margin: 1rem;
+    background-color: rgb(206, 206, 206);
+}
+
+.form-input {
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    flex-direction: column;
+}
+
+.form-input {
+    margin: 1rem;
+}
+
+
+.verify-btn {
+    padding: 0 0.5rem;
+}
