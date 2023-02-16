@@ -5,12 +5,18 @@ const app = express();
 // generateCode route
 const generateCode = require('./api/generateCode');
 
+// verifyCode route
+const verifyCode = require('./api/verifyCode');
+
 app.use((req, res, next) => {
     next();
 });
 
 // generate and send verification code endpoint
 app.use("/generateCode", generateCode);
+
+// verify verification code endpoint
+app.use("/verifyCode", verifyCode);
 
 // listen server on port 3000
 app.listen(3000, () => {
