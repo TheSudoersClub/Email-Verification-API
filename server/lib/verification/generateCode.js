@@ -12,7 +12,7 @@ const sendMail = require('../sendmail/sendMail');
 // function for generating verification code with given file name 
 async function generateCode(email) {
     // generate code
-    const code = Math.floor(Math.random() * (999999 - 100000)) + 1000;
+    const code = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
     // filepath
     const filepath = "server/temp/otp/" + email + ".txt";
@@ -25,7 +25,7 @@ async function generateCode(email) {
         const result = await sendMail(email, code.toString());
 
         if (result) {
-            // auto delete file after 60sec
+            // auto delete file after 5 min
             setTimeout(() => {
 
                 // remove the file from system
@@ -35,7 +35,7 @@ async function generateCode(email) {
                     }
                 });
 
-            }, 60000);
+            }, 300000);
 
             // return success
             return true;
