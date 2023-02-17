@@ -1,0 +1,1 @@
+initiator file for handling empty temp/otp directory
