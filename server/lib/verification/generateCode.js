@@ -19,24 +19,25 @@ async function generateCode(email) {
 
     // store the generate code in file temporarily 
     try {
+        // generate the file for verification code
         fs.writeFileSync(filepath, code.toString());
+
+        // auto delete the generated file after 5 min
+        setTimeout(() => {
+
+            // remove the file from system
+            exec(`rm -f ${filepath}`, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(error);
+                }
+            });
+        }, 300000);
+
 
         // send email to user and store set result (true/false)
         const result = await sendMail(email, code.toString());
 
         if (result) {
-            // auto delete file after 5 min
-            setTimeout(() => {
-
-                // remove the file from system
-                exec(`rm -f ${filepath}`, (error, stdout, stderr) => {
-                    if (error) {
-                        console.log(error);
-                    }
-                });
-
-            }, 300000);
-
             // return success
             return true;
         }
