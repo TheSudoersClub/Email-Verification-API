@@ -1,9 +1,12 @@
+// load environment variables
+require("dotenv/config");
+
 // import nodemailer to send emails with node
 const nodemailer = require("nodemailer");
 
 // function for sending emails to user
 async function sendMail(sendersEmail, message) {
-
+    
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,

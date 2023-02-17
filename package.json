@@ -2,14 +2,17 @@
   "name": "email-verification",
   "version": "1.0.0",
   "description": "email verification api",
-  "main": "index.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "if [ ! -d node_modules ]; then npm install; fi"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
   }
 }
