@@ -9,7 +9,7 @@ const {
 // function for generating verification code with given file name 
 async function verifyCode(fileName, clientCode) {
     // filepath
-    const filepath = "temp/otp/" + fileName + ".txt";
+    const filepath = "server/temp/otp/" + fileName + ".txt";
 
     try {
         const data = fs.readFileSync(filepath, "utf8");

@@ -10,7 +10,7 @@ async function generateCode(email) {
     const code = Math.floor(Math.random() * (999999 - 100000)) + 1000;
 
     // filepath
-    const filepath = "temp/otp/" + email + ".txt";
+    const filepath = "server/temp/otp/" + email + ".txt";
 
     // store the generate code in file temporarily 
     try {
