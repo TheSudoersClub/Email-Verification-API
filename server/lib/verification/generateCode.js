@@ -1,6 +1,11 @@
 // fs module for handling files
 const fs = require("fs");
 
+// exec module to run system commands - to remove (delete) the file 
+const {
+    exec
+} = require('child_process');
+
 // sendMail function to send the verification code email
 const sendMail = require('../sendmail/sendMail');
 
@@ -20,6 +25,19 @@ async function generateCode(email) {
         const result = await sendMail(email, code.toString());
 
         if (result) {
+            // auto delete file after 60sec
+            setTimeout(() => {
+
+                // remove the file from system
+                exec(`rm -f ${filepath}`, (error, stdout, stderr) => {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+
+            }, 60000);
+
+            // return success
             return true;
         }
     }

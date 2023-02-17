@@ -18,7 +18,7 @@ async function verifyCode(fileName, clientCode) {
         if (clientCode === data) {
 
             // delete the file once the code is verified
-            exec(`rm ${filepath}`, (error, stdout, stderr) => {
+            exec(`rm -f ${filepath}`, (error, stdout, stderr) => {
                 if (error) {
                     console.log(error);
                 }
