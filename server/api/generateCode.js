@@ -8,7 +8,7 @@ const generateCode = require('../lib/verification/generateCode');
 router.get('/', (req, res) => {
     // email of user
     const email = req.query.email
-    console.log(email)
+
     // status 
     const result = generateCode(email);
 

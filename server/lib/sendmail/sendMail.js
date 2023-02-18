@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 
 // function for sending emails to user
 async function sendMail(sendersEmail, message) {
-    
+
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -20,7 +20,7 @@ async function sendMail(sendersEmail, message) {
     let mailOptions = {
         from: 'TSC email verification api',
         to: sendersEmail,
-        subject: "verification code from TSC",
+        subject: "Verification code from TSC",
         text: `Verification code - ${message}`,
     };
 
@@ -30,6 +30,7 @@ async function sendMail(sendersEmail, message) {
         return true;
     } catch (error) {
         console.log(error);
+        return false;
     }
 }
 

@@ -14,37 +14,54 @@ async function generateCode(email) {
     // generate code
     const code = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
-    // filepath
-    const filepath = "server/temp/otp/" + email + ".txt";
+    // directoryPath
+    const directoryPath = "server/temp/otp/" + email;
 
-    // store the generate code in file temporarily 
+    // verificationCodePath
+    const verificationCodePath = directoryPath + "/otp.txt";
+
+    // attempts file path
+    const attemptFile = directoryPath + "/attempts.txt";
+
     try {
-        // generate the file for verification code
-        fs.writeFileSync(filepath, code.toString());
+        // create the directory for client
+        fs.mkdirSync(directoryPath, {
+            recursive: true
+        });
 
-        // auto delete the generated file after 5 min
+        // delete the generated directory after 5min
         setTimeout(() => {
 
-            // remove the file from system
-            exec(`rm -f ${filepath}`, (error, stdout, stderr) => {
+            // delete the directory once the code is verified
+            exec(`rm -rf ${directoryPath}`, (error, stdout, stderr) => {
                 if (error) {
                     console.log(error);
                 }
             });
         }, 300000);
 
+        // store the generate code in file
+        try {
+            // generate the file for verification code and attempts
+            fs.writeFileSync(verificationCodePath, code.toString());
+            fs.writeFileSync(attemptFile, "0");
 
-        // send email to user and store set result (true/false)
-        const result = await sendMail(email, code.toString());
+            // send email to user and store set result (true/false)
+            const result = await sendMail(email, code.toString());
 
-        if (result) {
-            // return success
-            return true;
+            if (result) {
+                // return success
+                return true;
+            }
         }
-    }
-    // handle error
-    catch (error) {
-        console.log(error)
+        // handle error
+        catch (error) {
+            console.error(error);
+            return false;
+        }
+
+    } catch (error) {
+        console.error(error);
         return false;
     }
 

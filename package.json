@@ -10,9 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "nodemailer": "^6.9.1"
-  },
-  "devDependencies": {
+    "nodemailer": "^6.9.1",
     "dotenv": "^16.0.3"
   }
 }
