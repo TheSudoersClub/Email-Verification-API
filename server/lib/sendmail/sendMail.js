@@ -26,11 +26,16 @@ async function sendMail(sendersEmail, message) {
 
     try {
         let info = await transporter.sendMail(mailOptions);
-        console.log('Message sent: %s', info.messageId);
-        return true;
+        return {
+            status: true,
+            message: `Message sent: ${info.messageId}`
+        };
     } catch (error) {
         console.log(error);
-        return false;
+        return {
+            status: false,
+            message: error
+        };
     }
 }
 

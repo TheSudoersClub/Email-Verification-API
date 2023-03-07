@@ -9,19 +9,25 @@ const verifyCode = require('../lib/verification/verifyCode');
 router.get('/', async (req, res) => {
     // email of user
     const email = decodeURIComponent(req.query.email);
-    
+
     // user entered verification code
     const code = decodeURIComponent(req.query.code);
 
-    // status
-    const result = await verifyCode(email, code);
+    // get response
+    const {
+        status,
+        message,
+        codeExpired,
+        attemptsLeft
+    } = await verifyCode(email, code);
 
-    // response according to result
-    if (result) {
-        res.send({success: true});
-    } else {
-        res.send({success: false});
-    }
+    // sent the response
+    res.send({
+        status: status,
+        message: message,
+        codeExpired: codeExpired,
+        attemptsLeft: attemptsLeft
+    });
 });
 
 // export the router

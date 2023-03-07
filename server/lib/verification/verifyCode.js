@@ -1,13 +1,13 @@
 // fs module for handling files
 const fs = require("fs");
 
-// exec module to run system commands - to remove (delete) the file 
-const {
-    exec
-} = require('child_process');
+// deleteDirectory function to remove (delete) the directory
+const deleteDirectory = require("../helper/deleteDirectory");
 
 // function for generating verification code with given file name 
 async function verifyCode(fileName, clientCode) {
+
+    console.log("verifyCode");
 
     // directory path
     const directoryPath = "server/temp/otp/" + fileName;
@@ -24,15 +24,20 @@ async function verifyCode(fileName, clientCode) {
 
         // compare the code with actual code
         if (clientCode === data) {
+
+            console.log("verified");
+
             // delete the directory once the code is verified
-            exec(`rm -rf ${directoryPath}`, (error, stdout, stderr) => {
-                if (error) {
-                    console.log(error);
-                }
-            });
+            await deleteDirectory(directoryPath);
 
             // return success once code is verified
-            return true;
+            return {
+                status: true,
+                message: "Verification Code verified successfully",
+                codeExpired: true,
+                codeExpired: true,
+                attemptsLeft: 0
+            };
         } else {
 
             // initialize the attemptCount with 0 initially
@@ -47,28 +52,53 @@ async function verifyCode(fileName, clientCode) {
 
                 // check weather the attemptCount has greater than 3 
                 if (attemptCount >= 3) {
-                    // delete the directory if attempt count exceeds 3
-                    exec(`rm -rf ${directoryPath}`, (error, stdout, stderr) => {
-                        if (error) {
-                            console.log(error);
-                        }
-                    });
 
-                    // return false for invalid attempts
-                    return false;
+                    // delete the directory if attempt count exceeds 3
+                    await deleteDirectory(directoryPath);
+
+                    // after 3 invalid attempts
+                    return {
+                        status: false,
+                        message: "Attempts limit reached",
+                        codeExpired: true,
+                        codeExpired: true,
+                        attemptsLeft: 0
+                    };
+
                 } else {
                     // write the updated attempt count to the attempt file
                     fs.writeFileSync(attemptFile, attemptCount.toString(), "utf8");
+
+                    // return false for invalid attempts
+                    return {
+                        status: false,
+                        message: "Invalid attempt",
+                        codeExpired: false,
+                        codeExpired: false,
+                        attemptsLeft: (3 - attemptCount)
+                    };
                 }
-            } catch (err) {
-                console.error(err);
-                return false;
+            } catch (error) {
+
+                // if the requested file is not fount or has been removed
+                return {
+                    status: false,
+                    message: error,
+                    codeExpired: true,
+                    attemptsLeft: 0
+                };
             }
 
         }
     } catch (error) {
-        console.log(error);
-        return false;
+
+        // if the requested file is not fount or has been removed
+        return {
+            status: false,
+            message: error,
+            codeExpired: true,
+            attemptsLeft: 0
+        };
     }
 
 }

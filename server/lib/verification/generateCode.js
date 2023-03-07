@@ -1,10 +1,8 @@
 // fs module for handling files
 const fs = require("fs");
 
-// exec module to run system commands - to remove (delete) the file 
-const {
-    exec
-} = require('child_process');
+// deleteDirectory function to remove (delete) the directory
+const deleteDirectory = require("../helper/deleteDirectory");
 
 // sendMail function to send the verification code email
 const sendMail = require('../sendmail/sendMail');
@@ -33,11 +31,8 @@ async function generateCode(email) {
         setTimeout(() => {
 
             // delete the directory once the code is verified
-            exec(`rm -rf ${directoryPath}`, (error, stdout, stderr) => {
-                if (error) {
-                    console.log(error);
-                }
-            });
+            deleteDirectory(directoryPath);
+
         }, 300000);
 
         // store the generate code in file
@@ -46,23 +41,33 @@ async function generateCode(email) {
             fs.writeFileSync(verificationCodePath, code.toString());
             fs.writeFileSync(attemptFile, "0");
 
-            // send email to user and store set result (true/false)
-            const result = await sendMail(email, code.toString());
+            // call sendmail get the response 
+            const {
+                status,
+                message
+            } = await sendMail(email, code.toString());
 
-            if (result) {
-                // return success
-                return true;
+            // return the response of the email
+            return {
+                status: status,
+                message: message
             }
         }
+
         // handle error
         catch (error) {
             console.error(error);
-            return false;
+            return {
+                status: false,
+                message: error
+            };
         }
 
     } catch (error) {
-        console.error(error);
-        return false;
+        return {
+            status: false,
+            message: error
+        };
     }
 
 }
