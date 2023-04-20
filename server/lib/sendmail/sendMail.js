@@ -5,7 +5,7 @@ require("dotenv/config");
 const nodemailer = require("nodemailer");
 
 // function for sending emails to user
-async function sendMail(sendersEmail, message) {
+async function sendMail(receiversEmail, message) {
 
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -19,7 +19,7 @@ async function sendMail(sendersEmail, message) {
 
     let mailOptions = {
         from: 'TSC email verification api',
-        to: sendersEmail,
+        to: receiversEmail,
         subject: "Verification code from TSC",
         text: `Verification code - ${message}`,
     };
@@ -28,7 +28,7 @@ async function sendMail(sendersEmail, message) {
         let info = await transporter.sendMail(mailOptions);
         return {
             status: true,
-            message: `Message sent: ${info.messageId}`
+            message: `Verification code has been sent to ${sendreceiversEmailersEmail}`
         };
     } catch (error) {
         console.log(error);
