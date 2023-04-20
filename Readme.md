@@ -56,7 +56,7 @@ This endpoint verifies the entered verification code for the specified email add
 {
   "status": true,
   "message": "Verification successful",
-  "codeExpired": true, // code expires after successfull verification
+  "codeExpired": true,
   "attemptsLeft": 0
 }
 
@@ -68,6 +68,6 @@ This endpoint verifies the entered verification code for the specified email add
   "status": true,
   "message": "Verification successful",
   "codeExpired": false,
-  "attemptsLeft": 2 // attempts remaining
+  "attemptsLeft": 2
 }
 ```
