@@ -1,11 +1,12 @@
 // fs module for handling files
 const fs = require("fs");
+const path = require("path")
 
 // deleteDirectory function to remove (delete) the directory
-const deleteDirectory = require("../helper/deleteDirectory");
+const deleteDirectory = require(path.join(__dirname, "../helper/deleteDirectory"));
 
 // sendMail function to send the verification code email
-const sendMail = require('../sendmail/sendMail');
+const sendMail = require(path.join(__dirname, '../sendmail/sendMail'));
 
 // function for generating verification code with given file name 
 async function generateCode(email) {
@@ -13,13 +14,13 @@ async function generateCode(email) {
     const code = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
     // directoryPath
-    const directoryPath = "server/temp/otp/" + email;
-
+    const directoryPath = path.join(process.cwd(), "server", "temp", "otp", email);
+    
     // verificationCodePath
-    const verificationCodePath = directoryPath + "/otp.txt";
+    const verificationCodePath = path.join(directoryPath, "otp.txt");
 
     // attempts file path
-    const attemptFile = directoryPath + "/attempts.txt";
+    const attemptFile = path.join(directoryPath, "/attempts.txt");
 
     try {
         // create the directory for client

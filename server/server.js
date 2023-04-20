@@ -1,12 +1,13 @@
 // express module for server
 const express = require("express");
 const app = express();
+const path = require("path")
 
 // generateCode route
-const generateCode = require('./api/generateCode');
+const generateCode = require(path.join(__dirname, '/routes/generateCode'));
 
 // verifyCode route
-const verifyCode = require('./api/verifyCode');
+const verifyCode = require(path.join(__dirname, '/routes/verifyCode'));
 
 app.use((req, res, next) => {
 

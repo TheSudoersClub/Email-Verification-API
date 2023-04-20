@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const path = require("path")
 // generateCode function
-const verifyCode = require('../lib/verification/verifyCode');
+
+const verifyCode = require(path.join(__dirname,'../lib/verification/verifyCode'));
 
 
 // verify verification code route

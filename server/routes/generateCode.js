@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const path = require("path")
 
 // generateCode function
-const generateCode = require('../lib/verification/generateCode');
+const generateCode = require(path.join(__dirname, '../lib/verification/generateCode'));
 
 // generate verification code route
 router.get('/', async (req, res) => {

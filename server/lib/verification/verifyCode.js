@@ -1,5 +1,6 @@
 // fs module for handling files
 const fs = require("fs");
+const path = require("path")
 
 // deleteDirectory function to remove (delete) the directory
 const deleteDirectory = require("../helper/deleteDirectory");
@@ -9,14 +10,14 @@ async function verifyCode(fileName, clientCode) {
 
     console.log("verifyCode");
 
-    // directory path
-    const directoryPath = "server/temp/otp/" + fileName;
+    // directoryPath
+    const directoryPath = path.join(process.cwd(), "server", "temp", "otp", fileName);
 
     // verificationCodePath
-    const verificationCodePath = directoryPath + "/otp.txt";
+    const verificationCodePath = path.join(directoryPath, "otp.txt");
 
     // attempts file path
-    const attemptFile = directoryPath + "/attempts.txt";
+    const attemptFile = path.join(directoryPath, "/attempts.txt");
 
     try {
         // read the actual verification code
